@@ -65,7 +65,7 @@ gulp.task('asset-build', [], function() {
 * Serve Tasks
 ****************************************/
 
-gulp.task('serve', [], function () {
+gulp.task('serve', ['build'], function () {
     
     var script = 'server.js';
     
