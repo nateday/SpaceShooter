@@ -1,15 +1,13 @@
 (function() {
     
-    var game = new Phaser.Game(800, 700, Phaser.AUTO, 'space-shooter', { preload: preload, create: create });
+    var preloader = require('./preloader');
+    var level = require('./level');
     
-    function preload() {
-
-        game.load.image('galaxy', 'assets/galaxy.png');
-    }
+    var game = new Phaser.Game(800, 700, Phaser.AUTO, 'space-shooter');
     
-    function create() {
-
-        game.add.sprite(0, 0, 'galaxy');
-    }
+    game.player = null;
     
+    game.state.add('level', level);
+    game.state.add('preloader', preloader, true);
+ 
 })();
