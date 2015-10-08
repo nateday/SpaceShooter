@@ -22,7 +22,10 @@ module.exports = (function() {
 
         this.game.time.events.loop(500, function() { 
             
-            if(this.barrelTemp > 75) {
+            if(this.barrelTemp > 100) {
+                this.barrelTemp *= .98;
+            }
+            else if(this.barrelTemp > 75) {
                 this.barrelTemp *= .9;
             }
             else if(this.barrelTemp > 50) {
@@ -52,9 +55,7 @@ module.exports = (function() {
             return;
         }
         
-        if (this.barrelTemp >= 100) {
-            return;
-        }
+        this.fireRate = 100 + (this.barrelTemp >= 100 ? this.barrelTemp / 25 * 30 : 0);
 
         if (this.game.time.time < this.nextFire) {
             return; 
@@ -73,7 +74,7 @@ module.exports = (function() {
     
     Weapon.prototype.getHudText = function() {
         
-        return '[ Ammo: ' + this.ammoCount + ' ]  [ Barrel: ' + this.barrelTemp.toPrecision(4) + ' ]';
+        return '[ Ammo: ' + this.ammoCount + ' ]  [ Temp: ' + this.barrelTemp.toPrecision(4) + ' ]';
     };
     
     return Weapon;
