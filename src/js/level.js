@@ -17,6 +17,7 @@ module.exports = (function() {
             this.load.image('bullet', 'assets/bullet.png');
             this.load.audio('engine', 'assets/rocket-engine.mp3');
             this.load.audio('ion', 'assets/ion-cannon.mp3');
+            this.load.spritesheet('exhaust', 'assets/exhaust.png', 21, 21);
         },
         
         create: function() {
@@ -32,6 +33,11 @@ module.exports = (function() {
             this.engineSfx = this.add.audio('engine', 1, true);
             this.engineSfx.allowMultiple = false;
             this.engineSfx.play();
+            
+            this.exhaust = this.add.sprite(388, 653, 'exhaust');
+            var flicker = this.exhaust.animations.add('flicker');
+            
+            this.exhaust.animations.play('flicker', 30, true);
         },
         
         update: function() {
@@ -40,9 +46,11 @@ module.exports = (function() {
             
             if (this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.player.x >=2) {
                 this.player.x -= 2;
+                this.exhaust.x -= 2;
             }
             else if (this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.player.x < (800 - this.player.width - 2)) {
                 this.player.x += 2;
+                this.exhaust.x += 2;
             }
             
             if (this.input.keyboard.isDown(Phaser.Keyboard.S)) {
