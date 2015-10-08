@@ -21,8 +21,17 @@ module.exports = (function() {
 
         this.game.time.events.loop(500, function() { 
             
-            if(this.barrelTemp > 5) {
+            if(this.barrelTemp > 75) {
                 this.barrelTemp *= .9;
+            }
+            else if(this.barrelTemp > 50) {
+                this.barrelTemp *= .75;
+            }
+            else if(this.barrelTemp > 30) {
+                this.barrelTemp *= .6;
+            }
+            else if(this.barrelTemp > 5) {
+                this.barrelTemp *= .45;
             }
             else {
                 this.barrelTemp = 0;
