@@ -6,6 +6,7 @@ module.exports = (function() {
         
         var starField = null;
         var engineSfx = null;
+        var hudText = null;
     };
     
     state.prototype = {
@@ -38,6 +39,8 @@ module.exports = (function() {
             var flicker = this.exhaust.animations.add('flicker');
             
             this.exhaust.animations.play('flicker', 30, true);
+            
+            this.hudText = this.game.add.text(10, 670, '', { font: '15px Arial', fill: '#ffffff' });
         },
         
         update: function() {
@@ -56,6 +59,8 @@ module.exports = (function() {
             if (this.input.keyboard.isDown(Phaser.Keyboard.S)) {
                 this.player.weapon.fire(this.player);
             }
+            
+            this.hudText.text = this.player.weapon.getHudText();
         }
     };
     
