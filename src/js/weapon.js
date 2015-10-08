@@ -10,6 +10,7 @@ module.exports = (function() {
         this.bulletSpeed = 300;
         this.fireRate = 100;
         this.barrelTemp = 0;
+        this.ammoCount = 500;
         
         this.sfx = game.add.audio('ion');
         this.sfx.allowMultiple = true;
@@ -37,11 +38,7 @@ module.exports = (function() {
                 this.barrelTemp = 0;
             }
             
-            this.hudText.text = "Barrel: " + this.barrelTemp.toPrecision(4);
-             
         }, this);
-        
-        this.hudText = this.game.add.text(10, 670, "Barrel: " + this.barrelTemp.toPrecision(4), { font: "15px Arial", fill: "#ffffff" });
         
         return this;
     };
@@ -50,6 +47,10 @@ module.exports = (function() {
     Weapon.prototype.constructor = Weapon;
     
     Weapon.prototype.fire = function(source) {
+        
+        if (this.ammoCount === 0) {
+            return;
+        }
         
         if (this.barrelTemp >= 100) {
             return;
@@ -65,8 +66,14 @@ module.exports = (function() {
         this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 0);
         this.sfx.play();
         this.barrelTemp += 5;
+        this.ammoCount -= 1;
 
         this.nextFire = this.game.time.time + this.fireRate;
+    };
+    
+    Weapon.prototype.getHudText = function() {
+        
+        return '[ Ammo: ' + this.ammoCount + ' ]  [ Barrel: ' + this.barrelTemp.toPrecision(4) + ' ]';
     };
     
     return Weapon;
