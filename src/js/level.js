@@ -13,12 +13,12 @@ module.exports = (function() {
         
         preload: function() {
             
-            this.load.image('galaxy', 'assets/galaxy.png');
-            this.load.image('ship', 'assets/ship1.png');
-            this.load.image('bullet', 'assets/bullet.png');
-            this.load.audio('engine', 'assets/rocket-engine.mp3');
-            this.load.audio('ion', 'assets/ion-cannon.mp3');
-            this.load.spritesheet('exhaust', 'assets/exhaust.png', 21, 21);
+            this.load.image('galaxy', 'assets/images/galaxy.png');
+            this.load.image('ship', 'assets/images/ship1.png');
+            this.load.image('bullet', 'assets/images/bullet.png');
+            this.load.audio('engine', 'assets/images/rocket-engine.mp3');
+            this.load.audio('ion', 'assets/sounds/ion-cannon.mp3');
+            this.load.spritesheet('exhaust', 'assets/images/exhaust.png', 21, 21);
         },
         
         create: function() {
