@@ -16,7 +16,10 @@ module.exports = (function() {
         // Create ship sprite snd add to the sprites group
         self.ship = game.add.sprite(game.world.centerX - 25, game.world.bounds.bottom - 90, 'ship');
         
-        self.ship.collideWorldBounds=true;
+        game.physics.enable(self.ship, Phaser.Physics.ARCADE);
+        
+        self.ship.body.collideWorldBounds=true;
+        self.ship.body.allowGravity = false;
         self.ship.weapon = new Weapon(game);
         game.physics.enable(self.ship, Phaser.Physics.ARCADE);
         self.sprites.add(self.ship);
