@@ -56,7 +56,7 @@ gulp.task('asset-build', [], function() {
     log('Copying asset files');
 
     return gulp
-        .src(buildSource + 'assets/*')
+        .src(buildSource + 'assets/**/*')
         .pipe(gulp.dest(buildTarget + 'assets/'));
 });
 
