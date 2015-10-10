@@ -2,12 +2,14 @@ module.exports = (function() {
     
     var GameDB = require('./gamedb');
     var Player = require('./player');
+    var Asteroids = require('./asteroids');
     
     var state = function() {
         
         var starField = null;
         var engineSfx = null;
         var hudText = null;
+        var asteroids = null;
     };
     
     state.prototype = {
@@ -28,21 +30,19 @@ module.exports = (function() {
             this.db = new GameDB();
             
             this.physics.startSystem(Phaser.Physics.ARCADE);
-            this.physics.arcade.gravity.y = 10;
+            this.physics.arcade.gravity.y = 0;
             
             this.starField = this.add.tileSprite(0, 0, 800, 700, 'galaxy');
             
             this.player = new Player(this);
             this.hudText = this.game.add.text(10, 670, '', { font: '15px Arial', fill: '#ffffff' });
             
-            var asteroid = this.add.sprite(100, 0, 'asteroid-32x32');
-            
-            this.physics.enable( asteroid, Phaser.Physics.ARCADE);
-            
-            asteroid.body.collideWorldBounds = false;
+            this.asteroids = new Asteroids(this);
         },
         
         update: function() {
+            
+            this.physics.arcade.collide(this.asteroids);
             
             this.starField.tilePosition.y += 0.500;
             this.hudText.text = this.player.getHudText();
