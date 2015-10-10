@@ -38,11 +38,12 @@ module.exports = (function() {
             this.hudText = this.game.add.text(10, 670, '', { font: '15px Arial', fill: '#ffffff' });
             
             this.asteroids = new Asteroids(this);
+
         },
         
         update: function() {
             
-            this.physics.arcade.collide(this.asteroids);
+            this.physics.arcade.collide(this.asteroids.sprites);
             
             this.starField.tilePosition.y += 0.500;
             this.hudText.text = this.player.getHudText();
