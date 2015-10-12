@@ -14,6 +14,17 @@ module.exports = (function() {
     
     state.prototype = {
         
+        init: function() {
+            
+            this.db = new GameDB();
+            
+            this.db.getPlayerData(
+                function(data) { console.log('player: ', data); },
+                function(err) { console.log('error: ', err); }
+            );
+            
+        },
+        
         preload: function() {
             
             this.load.image('galaxy', 'assets/images/galaxy.png');
@@ -26,8 +37,6 @@ module.exports = (function() {
         },
         
         create: function() {
-            
-            this.db = new GameDB();
             
             this.physics.startSystem(Phaser.Physics.ARCADE);
             this.physics.arcade.gravity.y = 0;

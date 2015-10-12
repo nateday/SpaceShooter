@@ -27,7 +27,7 @@ module.exports = (function() {
         var self = this;
         
         data._id = 'player';
-        
+                
         self.db.put(data)
             .then(function() {
                 return self.db.get('player');
