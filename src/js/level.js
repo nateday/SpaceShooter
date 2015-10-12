@@ -52,10 +52,13 @@ module.exports = (function() {
         
         update: function() {
             
-            this.starField.tilePosition.y += 0.500;
-            this.hudText.text = this.player.getHudText();
+            var self = this;
             
-            this.physics.arcade.overlap(this.player.ship.ship.weapon.sprites, this.asteroids.sprites, bulletHitAsteroid, null, this);
+            self.starField.tilePosition.y += 0.500;
+            self.hudText.text = this.player.getHudText();
+                        
+            self.physics.arcade.collide(self.asteroids.sprites);
+            self.physics.arcade.overlap(self.player.ship.ship.weapon.sprites, self.asteroids.sprites, bulletHitAsteroid, null, self);
         }
     };
     
