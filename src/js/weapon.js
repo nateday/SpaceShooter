@@ -10,6 +10,15 @@ module.exports = (function() {
         this.game = game;
         this.sprites = game.add.group();
         
+        this.sprites.enableBody = true;
+        this.sprites.physicsBodyType = Phaser.Physics.ARCADE;
+
+        this.sprites.createMultiple(64, 'bullet');
+        this.sprites.setAll('anchor.x', 0.5);
+        this.sprites.setAll('anchor.y', 1);
+        this.sprites.setAll('outOfBoundsKill', true);
+        this.sprites.setAll('checkWorldBounds', true);
+        
         this.nextFire = 0;
         this.bulletSpeed = 300;
         this.fireRate = 100;
@@ -19,12 +28,12 @@ module.exports = (function() {
         this.sfx = game.add.audio('ion');
         this.sfx.allowMultiple = true;
 
-        for (var i = 0; i < 64; i++)
-        {
-            var bullet = new Bullet(game, 'bullet');
-            game.physics.enable(bullet, Phaser.Physics.ARCADE);
-            this.sprites.add(bullet, true);
-        }
+//        for (var i = 0; i < 64; i++)
+//        {
+//            var bullet = new Bullet(game, 'bullet');
+//
+//            this.sprites.add(bullet, true);
+//        }
 
         this.game.time.events.loop(500, function() { 
             
@@ -67,10 +76,20 @@ module.exports = (function() {
         var x = source.x + 25;
         var y = source.y - 5;
 
-        this.sprites.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 0);
-        this.sfx.play();
-        this.barrelTemp += 5;
-        this.ammoCount -= 1;
+        var bullet = this.sprites.getFirstExists(false); //.fire(x, y, 270, this.bulletSpeed, 0, 0);
+        
+        if (bullet)
+        {
+            bullet.reset(x, y);
+            bullet.scale.set(1);
+            bullet.angle = 270;
+            
+            this.game.physics.arcade.velocityFromAngle(270, this.bulletSpeed, bullet.body.velocity);
+
+            this.sfx.play();
+            this.barrelTemp += 5;
+            this.ammoCount -= 1;
+        }
 
         this.nextFire = this.game.time.time + this.fireRate;
     };

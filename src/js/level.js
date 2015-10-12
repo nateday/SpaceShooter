@@ -7,8 +7,8 @@ module.exports = (function() {
     var state = function() {
         
         var starField = null;
-        var engineSfx = null;
         var hudText = null;
+        var player = null;
         var asteroids = null;
     };
     
@@ -47,18 +47,24 @@ module.exports = (function() {
             this.hudText = this.game.add.text(10, 670, '', { font: '15px Arial', fill: '#ffffff' });
             
             this.asteroids = new Asteroids(this);
-
+            
         },
         
         update: function() {
             
-            this.physics.arcade.collide(this.asteroids.sprites);
-            
             this.starField.tilePosition.y += 0.500;
             this.hudText.text = this.player.getHudText();
+            
+            this.physics.arcade.overlap(this.player.ship.ship.weapon.sprites, this.asteroids.sprites, bulletHitAsteroid, null, this);
         }
     };
     
     return state;
+    
+    function bulletHitAsteroid(bullet, asteroid) {
+        
+        bullet.kill();
+        asteroid.kill();
+    }
     
 })();
