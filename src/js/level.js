@@ -33,7 +33,9 @@ module.exports = (function() {
             this.load.image('asteroid-32x32', 'assets/images/Asteroid-32x32.png');
             this.load.audio('engine', 'assets/sounds/rocket-engine.mp3');
             this.load.audio('ion', 'assets/sounds/ion-cannon.mp3');
+            this.load.audio('explosion', 'assets/sounds/explosion.mp3');
             this.load.spritesheet('exhaust', 'assets/images/exhaust.png', 21, 21);
+            this.load.spritesheet('explosion', 'assets/images/explosion.png', 164, 150);
         },
         
         create: function() {
@@ -67,7 +69,8 @@ module.exports = (function() {
     function bulletHitAsteroid(bullet, asteroid) {
         
         bullet.kill();
-        asteroid.kill();
+        
+        this.asteroids.explode(asteroid);
     }
     
 })();

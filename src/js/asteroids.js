@@ -1,6 +1,8 @@
 module.exports = (function() {
     
     var sprites = null;
+    var explosions = null;
+    var sfx = null;
     var game = null;
     
     var Asteroids = function(game) {
@@ -39,7 +41,26 @@ module.exports = (function() {
             asteroid.events.onOutOfBounds.add(outOfBounds, this);
             
         }, this);
+        
+        this.explosions = this.game.add.group();
+        this.explosions.createMultiple(30, 'explosion');
+        this.explosions.forEach(setupExplosion, this);
+        
+        this.sfx = game.add.audio('explosion');
+        this.sfx.allowMultiple = true;
     }
+    
+    Asteroids.prototype.explode = function(asteroid) {
+        
+        asteroid.kill();
+        
+        var explosion = this.explosions.getFirstExists(false);
+        
+        explosion.reset(asteroid.body.x, asteroid.body.y);
+        explosion.play('explosion', 30, false, true);
+        
+        this.sfx.play();
+    };
     
     return Asteroids;
 
@@ -56,6 +77,13 @@ module.exports = (function() {
             asteroid.kill();
         }
 
+    }
+    
+    function setupExplosion(explosion) {
+
+        explosion.anchor.x = 0.5;
+        explosion.anchor.y = 0.5;
+        explosion.animations.add('explosion');
     }
 
 })();
