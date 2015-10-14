@@ -1,6 +1,7 @@
 module.exports = (function() {
     
     var sprites = null;
+    var asteroids = null;
     var explosions = null;
     var sfx = null;
     var game = null;
@@ -8,40 +9,26 @@ module.exports = (function() {
     var Asteroids = function(game) {
         
         this.game = game;
-        this.sprites = game.add.group();
+        this.asteroids = game.add.emitter(game.world.centerX, -20, 100);
         
-        this.sprites.enableBody = true;
-        this.sprites.physicsBodyType = Phaser.Physics.ARCADE;
-        this.sprites.createMultiple(25, 'asteroid-32x32');
-        this.sprites.setAll('anchor.x', 0.5);
-        this.sprites.setAll('anchor.y', 0.5);
-        //this.sprites.setAll('outOfBoundsKill', true);
-        this.sprites.setAll('checkWorldBounds', true);
+        this.asteroids.width = 800;
+        this.asteroids.makeParticles('asteroid-32x32');
+        this.asteroids.bounce.setTo(0.5, 0.5);
+        this.asteroids.setXSpeed(-25, 25);
+        this.asteroids.setYSpeed(10, 40);
+        this.asteroids.setRotation(-90, 90);
+        this.asteroids.minParticleScale = 0.5;
+        this.asteroids.maxParticleScale = 1.5;
+        this.asteroids.gravity = 0;
+        this.asteroids.setAll('outOfBoundsKill', false);
+        this.asteroids.setAll('checkWorldBounds', true);
         
-        this.sprites.forEach(function(asteroid) {
-            
-            var sx = this.game.rnd.integerInRange(16, 780);
-            var vx = this.game.rnd.integerInRange(-25, 25);
-            var vy = this.game.rnd.integerInRange(10, 25);
-            var spinRate = this.game.rnd.integerInRange(3000, 7000);
-
-            asteroid.reset(sx, 16);
-            
-            //asteroid.scale.set(game.rnd.realInRange(0.5, 1.5));
-            asteroid.body.velocity.setTo(vx, vy);
-            asteroid.body.bounce.setTo(0.8, 0.5);
-            
-            if(Phaser.Utils.chanceRoll(50)) {
-                this.game.add.tween(asteroid).to( { angle: 360 }, spinRate, Phaser.Easing.Linear.None, true, 0, -1);
-            }
-            else {
-                this.game.add.tween(asteroid).from( { angle: 360 }, spinRate, Phaser.Easing.Linear.None, true, 0, -1);
-            }
-            
+        this.asteroids.forEach(function(asteroid) {
             asteroid.events.onOutOfBounds.add(outOfBounds, this);
-            
         }, this);
         
+        this.asteroids.flow(0, 1500, 10, 100);
+                
         this.explosions = this.game.add.group();
         this.explosions.createMultiple(30, 'explosion');
         this.explosions.forEach(setupExplosion, this);
@@ -57,7 +44,9 @@ module.exports = (function() {
         var explosion = this.explosions.getFirstExists(false);
         
         explosion.reset(asteroid.body.x, asteroid.body.y);
-        explosion.play('explosion', 30, false, true);
+        explosion.scale = asteroid.scale;
+        explosion.rotation = asteroid.rotation;
+        explosion.play('explosion', 60, false, true);
         
         this.sfx.play();
     };
@@ -66,15 +55,21 @@ module.exports = (function() {
 
     function outOfBounds(asteroid) {
 
-        if (asteroid.x < 0) {
-            asteroid.x = asteroid.game.width;
-        }
-        else if (asteroid.x > asteroid.game.width) {
-            asteroid.x = 0;
+        if (asteroid.y < 0) {
+            return;
         }
 
         if (asteroid.y > asteroid.game.height) {
             asteroid.kill();
+        }
+
+        if (asteroid.body.right < 0) {
+            //console.log('Out Left: ', asteroid);
+            asteroid.x = asteroid.game.width;
+        }
+        else if (asteroid.x > asteroid.game.width) {
+            //console.log('Out Right: ', asteroid);
+            asteroid.x = 0 - asteroid.body.width + 2;
         }
 
     }

@@ -59,8 +59,8 @@ module.exports = (function() {
             self.starField.tilePosition.y += 0.500;
             self.hudText.text = this.player.getHudText();
                         
-            self.physics.arcade.collide(self.asteroids.sprites);
-            self.physics.arcade.overlap(self.player.ship.ship.weapon.sprites, self.asteroids.sprites, bulletHitAsteroid, null, self);
+            self.physics.arcade.collide(self.asteroids.asteroids);
+            self.physics.arcade.overlap(self.player.ship.ship.weapon.sprites, self.asteroids.asteroids, bulletHitAsteroid, null, self);
         }
     };
     
