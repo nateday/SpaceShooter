@@ -17,8 +17,8 @@ module.exports = (function() {
         this.asteroids.setXSpeed(-25, 25);
         this.asteroids.setYSpeed(10, 40);
         this.asteroids.setRotation(-90, 90);
-        this.asteroids.minParticleScale = 0.5;
-        this.asteroids.maxParticleScale = 1.5;
+        this.asteroids.minParticleScale = 0.4;
+        this.asteroids.maxParticleScale = 0.8;
         this.asteroids.gravity = 0;
         this.asteroids.setAll('outOfBoundsKill', false);
         this.asteroids.setAll('checkWorldBounds', true);
@@ -26,8 +26,6 @@ module.exports = (function() {
         this.asteroids.forEach(function(asteroid) {
             asteroid.events.onOutOfBounds.add(outOfBounds, this);
         }, this);
-        
-        this.asteroids.flow(0, 1500, 10, 100);
                 
         this.explosions = this.game.add.group();
         this.explosions.createMultiple(30, 'explosion');
@@ -35,6 +33,8 @@ module.exports = (function() {
         
         this.sfx = game.add.audio('explosion');
         this.sfx.allowMultiple = true;
+        
+        this.asteroids.flow(0, 1500, 10, 100);
     }
     
     Asteroids.prototype.explode = function(asteroid) {
