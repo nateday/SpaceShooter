@@ -30,7 +30,7 @@ module.exports = (function() {
             this.load.image('galaxy', 'assets/images/galaxy.png');
             this.load.image('ship', 'assets/images/ship1.png');
             this.load.image('bullet', 'assets/images/bullet.png');
-            this.load.image('asteroid-32x32', 'assets/images/Asteroid-32x32.png');
+            this.load.image('asteroid-32x32', 'assets/images/asteroid.png');
             this.load.audio('engine', 'assets/sounds/rocket-engine.mp3');
             this.load.audio('ion', 'assets/sounds/ion-cannon.mp3');
             this.load.audio('explosion', 'assets/sounds/explosion.mp3');
